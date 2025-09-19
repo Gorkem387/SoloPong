@@ -1,0 +1,75 @@
+:root {
+  --primary-color: #007bff;
+  --primary-color-hover: #0056b3;
+  --button-text-color: #fff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 20px;
+}
+
+main {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#canvas {
+    border: 2px solid rgb(49, 121, 230);
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+}
+
+.controls button {
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--button-text-color);
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    font-size: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+    background-color: var(--primary-color-hover);
+}
+
+.startandstop {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 2px solid rgb(49, 121, 230);
+    background-color: white;
+    color: var(--primary-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 200px;
+}
+
+.startandstop:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
