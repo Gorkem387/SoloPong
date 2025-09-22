@@ -4,6 +4,24 @@ const ctx = canvas.getContext('2d');
 canvas.width = 500;
 canvas.height = 600;
 
+let leftPressed = false;
+let rightPressed = false;
+
+window.addEventListener("keydown", function(e) {
+    if (e.code === "ArrowLeft" || e.code === "KeyA") leftPressed = true;
+    if (e.code === "ArrowRight" || e.code === "KeyD") rightPressed = true;
+});
+
+window.addEventListener("keyup", function(e) {
+    if (e.code === "ArrowLeft" || e.code === "KeyA") leftPressed = false;
+    if (e.code === "ArrowRight" || e.code === "KeyD") rightPressed = false;
+});
+
+function updatePaddle() {
+    if (leftPressed && rect.x > 0) rect.x -= 3;
+    if (rightPressed && rect.x + rect.width < canvas.width) rect.x += 3;
+}
+
 let rect = {
     x: 0,
     y: 0,
@@ -86,6 +104,7 @@ drawBall();
 function gameLoop() {
     if (startGame) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        updatePaddle();
         drawRect();
         drawBall();
         updateBallPosition();
@@ -103,7 +122,7 @@ function gameOver() {
     resetGame();
 }
 
-window.addEventListener("keydown", function(e) {
+/*window.addEventListener("keydown", function(e) {
                 switch (e.code) {
                     case 'ArrowLeft':
                     case 'KeyA' :
@@ -118,7 +137,7 @@ window.addEventListener("keydown", function(e) {
                         }
                         break;
                 }
-        })
+        })*/
 
 window.addEventListener("keydown", startingGame);
 
