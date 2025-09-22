@@ -71,8 +71,6 @@ window.addEventListener("keydown", function(e) {
                         }
                         break;
                 }
-
-                drawRect();
         })
 
 window.addEventListener("keydown", startingGame);
