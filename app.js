@@ -39,6 +39,16 @@ function launchBall() {
     ball.dy = 3;
 }
 
+function resetGame() {
+    rect.x = (canvas.width - rect.width) / 2;
+    rect.y = canvas.height - rect.height - 5;
+    resetBallOnPaddle();
+    startGame = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawRect();
+    drawBall();
+}
+
 function drawRect() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
@@ -56,6 +66,18 @@ function drawBall() {
 function updateBallPosition() {
     ball.x += ball.dx;
     ball.y += ball.dy;
+    if (ball.x - ball.radius <= 0 || ball.x + ball.radius >= canvas.width) {
+        ball.dx *= -1;
+    }
+    if (ball.y - ball.radius <=0) {
+        ball.dy *= -1;
+    }
+    if (ball.y + ball.radius >= canvas.height) {
+        gameOver();
+    }
+    if (ball.y + ball.radius >= rect.y && ball.x >= rect.x && ball.x <= rect.x + rect.width) {
+        ball.dy *= -1;
+    }
 }
 
 drawRect();
@@ -74,6 +96,11 @@ function gameLoop() {
         resetBallOnPaddle();
         drawBall();
     }
+}
+
+function gameOver() {
+    startGame = false;
+    resetGame();
 }
 
 window.addEventListener("keydown", function(e) {
