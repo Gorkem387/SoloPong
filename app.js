@@ -12,18 +12,32 @@ let rect = {
 }
 
 let ball = {
-    x: (canvas.width - rect.width) / 2 + 40,
-    y: canvas.height - rect.height - 13,
+    x: 0,
+    y: 0,
     radius: 8,
-    dx: Math.random() < 0.5 ? 3 : -3,
-    dy: 3,
+    dx: 0,
+    dy: 0,
     speed: 4
-}
+};
 
 rect.x = (canvas.width - rect.width) / 2;
 rect.y = canvas.height - rect.height - 5;
 
 let startGame = false;
+
+function resetBallOnPaddle() {
+    ball.x = (canvas.width - rect.width) / 2 + 40;
+    ball.y = canvas.height - rect.height - 13;
+    ball.dx = 0;
+    ball.dy = 0;
+}
+
+function launchBall() {
+    ball.x = Math.random() * (canvas.width - ball.radius * 2) + ball.radius;
+    ball.y = Math.random() * (canvas.height * 0.3) +20;
+    ball.dx = Math.random() < 0.5 ? 3 : -3;
+    ball.dy = 3;
+}
 
 function drawRect() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -49,10 +63,16 @@ drawBall();
 
 function gameLoop() {
     if (startGame) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawRect();
         drawBall();
         updateBallPosition();
         requestAnimationFrame(gameLoop);
+    } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawRect();
+        resetBallOnPaddle();
+        drawBall();
     }
 }
 
@@ -82,6 +102,11 @@ function startingGame(e) {
          e.code === "KeyA" || 
          e.code === "KeyD")) {
         startGame = true;
+        launchBall();
         gameLoop();
     }
 }
+
+resetBallOnPaddle();
+drawRect();
+drawBall();
