@@ -89,6 +89,11 @@ function updateBallPosition() {
     }
     if (ball.y - ball.radius <=0) {
         ball.dy *= -1;
+        if (ball.dy > 0) {
+            ball.dy += 1;
+        } else {
+            ball.dy -= 1;
+        }
     }
     if (ball.y + ball.radius >= canvas.height) {
         gameOver();
