@@ -6,6 +6,7 @@ canvas.height = 600;
 
 let leftPressed = false;
 let rightPressed = false;
+const startBtn = document.querySelector(".startandstop");
 
 window.addEventListener("keydown", function(e) {
     if (e.code === "ArrowLeft" || e.code === "KeyA") leftPressed = true;
@@ -161,3 +162,10 @@ function startingGame(e) {
 resetBallOnPaddle();
 drawRect();
 drawBall();
+
+startBtn.addEventListener("click", () => {
+    resetGame();
+    startGame = false;
+    drawRect();
+    drawBall();
+});
