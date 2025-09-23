@@ -1,12 +1,22 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext('2d');
 
-canvas.width = 500;
-canvas.height = 600;
+canvas.width = 400;
+canvas.height = 500;
 
 let leftPressed = false;
 let rightPressed = false;
 const startBtn = document.querySelector(".startandstop");
+const leftBtn = document.getElementById("leftBtn");
+const rightBtn = document.getElementById("rightBtn");
+const scoreDisplay = document.getElementById("score");
+let score = 0;
+let scoreInterval = null;
+
+leftBtn.addEventListener("mousedown", () => leftPressed = true);
+rightBtn.addEventListener("mousedown", () => rightPressed = true);
+leftBtn.addEventListener("mouseup", () => leftPressed = false);
+rightBtn.addEventListener("mouseup", () => rightPressed = false);
 
 window.addEventListener("keydown", function(e) {
     if (e.code === "ArrowLeft" || e.code === "KeyA") leftPressed = true;
@@ -53,7 +63,7 @@ function resetBallOnPaddle() {
 
 function launchBall() {
     ball.x = Math.random() * (canvas.width - ball.radius * 2) + ball.radius;
-    ball.y = Math.random() * (canvas.height * 0.3) +20;
+    ball.y = Math.random() * (canvas.height * 0.1) +20;
     ball.dx = Math.random() < 0.5 ? 3 : -3;
     ball.dy = 3;
 }
@@ -66,6 +76,7 @@ function resetGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawRect();
     drawBall();
+    resetScore();
 }
 
 function drawRect() {
@@ -92,9 +103,12 @@ function updateBallPosition() {
         ball.dy *= -1;
         if (ball.dy > 0) {
             ball.dy += 1;
-        } else {
+        } /*else {
             ball.dy -= 1;
-        }
+        }*/
+    }
+    if (ball.dy >= 10) {
+            ball.dy = 10;
     }
     if (ball.y + ball.radius >= canvas.height) {
         gameOver();
@@ -102,6 +116,26 @@ function updateBallPosition() {
     if (ball.y + ball.radius >= rect.y && ball.x >= rect.x && ball.x <= rect.x + rect.width) {
         ball.dy *= -1;
     }
+}
+
+function startScore() {
+    score = 0;
+    scoreDisplay.textContent = score;
+    scoreInterval = setInterval(()=> {
+        score++;
+        scoreDisplay.textContent = score;
+    },1000);
+}
+
+function stopScore() {
+    clearInterval(scoreInterval);
+    scoreInterval = null;
+}
+
+function resetScore() {
+    stopScore();
+    score = 0;
+    scoreDisplay.textContent = score;
 }
 
 drawRect();
@@ -126,6 +160,7 @@ function gameLoop() {
 function gameOver() {
     startGame = false;
     resetGame();
+    resetScore();
 }
 
 /*window.addEventListener("keydown", function(e) {
@@ -155,6 +190,7 @@ function startingGame(e) {
          e.code === "KeyD")) {
         startGame = true;
         launchBall();
+        startScore();
         gameLoop();
     }
 }
@@ -166,6 +202,4 @@ drawBall();
 startBtn.addEventListener("click", () => {
     resetGame();
     startGame = false;
-    drawRect();
-    drawBall();
 });
