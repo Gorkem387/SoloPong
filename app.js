@@ -12,9 +12,17 @@ const rightBtn = document.getElementById("rightBtn");
 const scoreDisplay = document.getElementById("score");
 let score = 0;
 let scoreInterval = null;
+let speedIncrement = 0;
+const maxIncrement = 5;
 
-leftBtn.addEventListener("mousedown", () => leftPressed = true);
-rightBtn.addEventListener("mousedown", () => rightPressed = true);
+leftBtn.addEventListener("mousedown", () => { 
+    leftPressed = true;
+    if (!startGame) startingGame();
+});
+rightBtn.addEventListener("mousedown", () => {
+    rightPressed = true;
+    if (!startGame) startingGame();
+});
 leftBtn.addEventListener("mouseup", () => leftPressed = false);
 rightBtn.addEventListener("mouseup", () => rightPressed = false);
 
@@ -46,7 +54,6 @@ let ball = {
     radius: 8,
     dx: 0,
     dy: 0,
-    speed: 4
 };
 
 rect.x = (canvas.width - rect.width) / 2;
@@ -73,6 +80,7 @@ function resetGame() {
     rect.y = canvas.height - rect.height - 5;
     resetBallOnPaddle();
     startGame = false;
+    speedIncrement = 0;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawRect();
     drawBall();
@@ -99,19 +107,19 @@ function updateBallPosition() {
     if (ball.x - ball.radius <= 0 || ball.x + ball.radius >= canvas.width) {
         ball.dx *= -1;
     }
-    if (ball.y - ball.radius <=0) {
-        ball.dy *= -1;
-        if (ball.dy > 0) {
-            ball.dy += 1;
-        } /*else {
-            ball.dy -= 1;
-        }*/
-    }
-    if (ball.dy >= 10) {
-            ball.dy = 10;
+    if (speedIncrement < maxIncrement) {
+        if (ball.y - ball.radius <=0) {
+            ball.dy *= -1;
+            if (ball.dy > 0) {
+                ball.dy += 1;
+            } else {
+                ball.dy -= 1;
+            }
+        }
     }
     if (ball.y + ball.radius >= canvas.height) {
         gameOver();
+        window.alert("Game Over..")
     }
     if (ball.y + ball.radius >= rect.y && ball.x >= rect.x && ball.x <= rect.x + rect.width) {
         ball.dy *= -1;
@@ -183,11 +191,7 @@ function gameOver() {
 window.addEventListener("keydown", startingGame);
 
 function startingGame(e) {
-    if (!startGame && 
-        (e.code === "ArrowLeft" || 
-         e.code === "ArrowRight" || 
-         e.code === "KeyA" || 
-         e.code === "KeyD")) {
+    if (!startGame) {
         startGame = true;
         launchBall();
         startScore();
