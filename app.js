@@ -19,12 +19,25 @@ leftBtn.addEventListener("mousedown", () => {
     leftPressed = true;
     if (!startGame) startingGame();
 });
+leftBtn.addEventListener("mouseup", () => leftPressed = false);
+leftBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    leftPressed = true;
+    if (!startGame) startingGame();
+});
+leftBtn.addEventListener("touchend", (e) => { e.preventDefault(); leftPressed = false;})
+
 rightBtn.addEventListener("mousedown", () => {
     rightPressed = true;
     if (!startGame) startingGame();
 });
-leftBtn.addEventListener("mouseup", () => leftPressed = false);
 rightBtn.addEventListener("mouseup", () => rightPressed = false);
+rightBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault(); 
+    rightPressed = true;
+    if (!startGame) startingGame();
+});
+rightBtn.addEventListener("touchend", (e) => { e.preventDefault(); rightPressed = false;})
 
 window.addEventListener("keydown", function(e) {
     if (e.code === "ArrowLeft" || e.code === "KeyA") leftPressed = true;
@@ -69,10 +82,8 @@ function resetBallOnPaddle() {
 }
 
 function launchBall() {
-    ball.x = Math.random() * (canvas.width - ball.radius * 2) + ball.radius;
-    ball.y = Math.random() * (canvas.height * 0.1) +20;
     ball.dx = Math.random() < 0.5 ? 3 : -3;
-    ball.dy = 3;
+    ball.dy = -3;
 }
 
 function resetGame() {
@@ -146,9 +157,6 @@ function resetScore() {
     scoreDisplay.textContent = score;
 }
 
-drawRect();
-drawBall();
-
 function gameLoop() {
     if (startGame) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -167,8 +175,8 @@ function gameLoop() {
 
 function gameOver() {
     startGame = false;
-    resetGame();
     resetScore();
+    resetGame();
 }
 
 /*window.addEventListener("keydown", function(e) {
