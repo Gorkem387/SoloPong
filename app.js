@@ -40,8 +40,14 @@ rightBtn.addEventListener("touchstart", (e) => {
 rightBtn.addEventListener("touchend", (e) => { e.preventDefault(); rightPressed = false;})
 
 window.addEventListener("keydown", function(e) {
-    if (e.code === "ArrowLeft" || e.code === "KeyA") leftPressed = true;
-    if (e.code === "ArrowRight" || e.code === "KeyD") rightPressed = true;
+    if (e.code === "ArrowLeft" || e.code === "KeyA") {
+        leftPressed = true;
+        if (!startGame) startingGame();
+    }
+    if (e.code === "ArrowRight" || e.code === "KeyD") { 
+        rightPressed = true;
+        if (!startGame) startingGame();
+    }
 });
 
 window.addEventListener("keyup", function(e) {
@@ -192,8 +198,6 @@ function gameOver() {
                         break;
                 }
         })*/
-
-window.addEventListener("keydown", startingGame);
 
 function startingGame(e) {
     if (!startGame) {
