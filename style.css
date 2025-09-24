@@ -46,6 +46,7 @@ main {
     width: 90px;
     height: 90px;
     font-size: 40px;
+    text-decoration: none;
     cursor: pointer;
     display: flex;
     justify-content: center;
