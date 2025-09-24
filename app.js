@@ -118,14 +118,11 @@ function updateBallPosition() {
     if (ball.x - ball.radius <= 0 || ball.x + ball.radius >= canvas.width) {
         ball.dx *= -1;
     }
-    if (speedIncrement < maxIncrement) {
-        if (ball.y - ball.radius <=0) {
-            ball.dy *= -1;
-            if (ball.dy > 0) {
-                ball.dy += 1;
-            } else {
-                ball.dy -= 1;
-            }
+    if (ball.y - ball.radius <=0) {
+        ball.dy *= -1;
+        if (speedIncrement < maxIncrement) {
+            speedIncrement++;
+            ball.dy *= 1.2;
         }
     }
     if (ball.y + ball.radius >= canvas.height) {
